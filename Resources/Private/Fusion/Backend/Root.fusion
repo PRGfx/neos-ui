@@ -131,6 +131,9 @@ backend = Neos.Fusion:Template {
                 flowQuery = Neos.Fusion:UriBuilder {
                     action = 'flowQuery'
                 }
+                transliteratePathSegment = Neos.Fusion:UriBuilder {
+                    action = 'transliteratePathSegment'
+                }
                 getWorkspaceInfo = Neos.Fusion:UriBuilder {
                     action = 'getWorkspaceInfo'
                 }

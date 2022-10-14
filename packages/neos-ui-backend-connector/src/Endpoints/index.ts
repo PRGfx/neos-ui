@@ -17,6 +17,7 @@ export interface Routes {
             clearClipboard: string;
             loadTree: string;
             flowQuery: string;
+            transliteratePathSegment: string;
             getWorkspaceInfo: string;
             getAdditionalNodeMetadata: string;
         };
@@ -638,6 +639,24 @@ export default (routes: Routes) => {
     .then(response => fetchWithErrorHandling.parseJson(response))
     .catch(reason => fetchWithErrorHandling.generalErrorHandler(reason));
 
+    const transliteratePathSegment = (nodeContextPath: string, text: string) => {
+        return fetchWithErrorHandling.withCsrfToken(csrfToken => {
+            const data = new URLSearchParams();
+            data.set('__csrfToken', csrfToken);
+            data.set('contextNode', nodeContextPath);
+            data.set('text', text);
+
+            return ({
+                url: routes.ui.service.transliteratePathSegment,
+                method: 'POST',
+                credentials: 'include',
+                body: data
+            });
+        })
+            .then(response => fetchWithErrorHandling.parseJson(response))
+            .catch(reason => fetchWithErrorHandling.generalErrorHandler(reason));
+    };
+
     return {
         loadImageMetadata,
         change,
@@ -662,6 +681,7 @@ export default (routes: Routes) => {
         setUserPreferences,
         dataSource,
         getJsonResource,
+        transliteratePathSegment,
         getWorkspaceInfo,
         getAdditionalNodeMetadata,
         tryLogin,
