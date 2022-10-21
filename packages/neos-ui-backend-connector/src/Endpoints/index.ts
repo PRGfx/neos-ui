@@ -639,23 +639,22 @@ export default (routes: Routes) => {
     .then(response => fetchWithErrorHandling.parseJson(response))
     .catch(reason => fetchWithErrorHandling.generalErrorHandler(reason));
 
-    const transliteratePathSegment = (nodeContextPath: string, text: string) => {
-        return fetchWithErrorHandling.withCsrfToken(csrfToken => {
-            const data = new URLSearchParams();
-            data.set('__csrfToken', csrfToken);
-            data.set('contextNode', nodeContextPath);
-            data.set('text', text);
-
-            return ({
-                url: routes.ui.service.transliteratePathSegment,
-                method: 'POST',
-                credentials: 'include',
-                body: data
-            });
-        })
+    const transliteratePathSegment = (nodeContextPath: string, text: string) =>
+        fetchWithErrorHandling.withCsrfToken(csrfToken => ({
+            url: routes.ui.service.transliteratePathSegment,
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'X-Flow-Csrftoken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contextNode: nodeContextPath,
+                text,
+            })
+        }))
             .then(response => fetchWithErrorHandling.parseJson(response))
             .catch(reason => fetchWithErrorHandling.generalErrorHandler(reason));
-    };
 
     return {
         loadImageMetadata,
