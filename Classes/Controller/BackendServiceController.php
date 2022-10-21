@@ -556,14 +556,11 @@ class BackendServiceController extends ActionController
     /**
      * Generates a new uri path segment for the given node and title
      *
-     * @param NodeInterface $contextNode
-     * @param string $text
-     * @return string
      * @throws \Neos\Neos\Exception
      */
-    public function transliteratePathSegmentAction(NodeInterface $contextNode, string $text): string
+    public function transliteratePathSegmentAction(NodeInterface $contextNode, string $text): void
     {
         $slug = $this->nodeUriPathSegmentGenerator->generateUriPathSegment($contextNode, $text);
-        return json_encode($slug);
+        $this->view->assign('value', $slug);
     }
 }
