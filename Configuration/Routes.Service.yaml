@@ -87,7 +87,7 @@
 
 -
   name: 'Generate UriPathSegment'
-  uriPattern: 'uri-path-segment'
+  uriPattern: 'generate-uri-path-segment'
   defaults:
     '@controller': 'BackendService'
     '@action': 'transliteratePathSegment'
